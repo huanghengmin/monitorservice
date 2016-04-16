@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+	 <context-param>
+
+		<param-name>contextConfigLocation</param-name>
+
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+    <servlet>
+        <servlet-name>monitorService</servlet-name>
+        <servlet-class>com.inetec.ichange.service.Service</servlet-class>
+        <init-param>
+            <param-name>configFile</param-name>
+            <param-value>config.properties</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+		<servlet-name>XFireServlet</servlet-name>
+		<servlet-class>
+			org.codehaus.xfire.spring.XFireSpringServlet
+		</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+    <servlet>
+        <servlet-name>quartz</servlet-name>
+        <servlet-class>
+            org.quartz.ee.servlet.QuartzInitializerServlet
+        </servlet-class>
+        <init-param>
+            <param-name>config-file</param-name>
+            <param-value>quartz.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>shutdown-on-unload</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+	<servlet-mapping>
+		<servlet-name>XFireServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+		<servlet-name>monitorService</servlet-name>
+        <url-pattern>/monitorService</url-pattern>
+	</servlet-mapping>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

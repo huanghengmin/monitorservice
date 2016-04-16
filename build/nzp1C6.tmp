@@ -1,0 +1,275 @@
+<!DOCTYPE project SYSTEM "build.dtd" [
+        <!ENTITY classpaths     SYSTEM "classpaths.xml">
+        <!ENTITY targets         SYSTEM "targets.xml">
+        ]>
+<project name="ichange" default="all" basedir="..">
+    <property file="build/build.properties"/>
+    &classpaths;
+    &targets;
+    <target name="all" depends="jars"/>
+    <target name="clean" depends="clean_common,clean_javadoc"/>
+
+    <target name="publib" depends="mypublib"/>
+
+    <target name="war" depends="jars,wars"/>
+    <!-- initialization target -->
+    <target name="my_init">
+        <!-- output jar file name for this project -->
+        <property name="project.name" value="monitorservice"/>
+        <property name="project.jar" value="${target.dir}/${project.name}.jar"/>
+        <property name="project.war" value="${target.dir}/${project.name}.war"/>
+        <!-- for target: refresh-db 
+		<property name="db.src"		value="C:\dev\restaurant.verdoc\src\sql\create-table.sql"/>
+		-->
+        <!-- for target: undeploy-weblogic,deploy-weblogic -->
+        <property name="deploy.name" value="interaction"/>
+        <!-- shared classpath for this project -->
+        <path id="shared.classpath">
+            <pathelement location="${shared.dir}/common/lib/common.jar"/>
+            <pathelement location="${shared.dir}/auditclient/lib/auditclient.jar"/>
+            <pathelement location="${shared.dir}/ukey/lib/ukey.jar"/>
+            <pathelement location="${shared.dir}/common/lib/xyzbvc.jar"/>
+            <pathelement location="${shared.dir}/webservice/lib/webclient.jar"/>
+
+
+        </path>
+        <!-- build classpath for this project -->
+        <path id="build.classpath">
+            <path refid="shared.classpath"/>
+            <path refid="sharelib.classpath"/>
+            <!--pathelement location="${sharelib.dir}/tomcat/webserver.jar"/-->
+
+            <pathelement location="${sharelib.dir}/javamail/mail.jar"/>
+            <pathelement location="${sharelib.dir}/javamail/activation.jar"/>
+            <pathelement location="${sharelib.dir}/jce/lib/jce.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/syslog/syslog4j.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/snmp/snmp4j-1.11.1.jar"/>
+            <pathelement location="${sharelib.dir}/whirlycache/lib/concurrent-1.3.4.jar"/>
+            <pathelement location="${sharelib.dir}/apache/mina/jzlib.jar"/>
+            <pathelement location="${sharelib.dir}/apache/mina/mina-core.jar"/>
+            <pathelement location="${sharelib.dir}/google/protolbuf.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/jace/jace.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/wsdl4j-1.6.1.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/wss4j-1.5.1.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/wstx-asl-3.2.0.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xalan-2.7.0.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xbean-2.2.0.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xbean-spring-2.8.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xfire-jsr181-api-1.0-M1.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xfire-all-1.2.6.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xml-apis-1.0.b2.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/XmlSchema-1.1.jar"/>
+            <pathelement location="${sharelib.dir}/xfire/lib/xmlsec-1.3.0.jar"/>
+            <pathelement location="${sharelib.dir}/whirlycache/whirlycache-1.0.1.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-api-1.5.6.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-log4j12-1.5.6.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-migrator-1.5.6.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-pool/commons-pool.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-digester/commons-digester.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-collections/commons-collections.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-logging/commons-logging.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-logging/commons-logging-api.jar"/>
+
+            <pathelement location="${sharelib.dir}/jakarta/commons-beanutils/commons-beanutils.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-httpclient/commons-httpclient.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-codec/commons-codec.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-api-1.5.6.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/ehcache/ehcache-1.1.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-jdk14-1.5.6.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/freemarker/freemarker.jar"/>
+            <pathelement location="${sharelib.dir}/spring/spring.jar"/>
+            <pathelement location="${sharelib.dir}/spring/xwork.jar"/>
+            <pathelement location="${sun.dir}/jaf/activation.jar"/>
+            <pathelement location="${sharelib.dir}/sun/servlet/servlet-api.jar"/>
+            <pathelement location="${sharelib.dir}/sun/servlet/jsp-api.jar"/>
+            <pathelement location="${sharelib.dir}/sun/javamail/mail.jar"/>
+            <pathelement location="${sharelib.dir}/apache/mina/mina-core.jar"/>
+            <pathelement location="${sharelib.dir}/sourceforge/cp3/c3p0-0.9.1.2.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/antlr-2.7.6rc1.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/asm-attrs.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/asm.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/cglib-2.1.3.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/cglib-nodep.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/collin.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/ehcache.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/hibernate3.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jaas.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jcommon.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jdbc2_0-stdext.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jfreechart.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jstl.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/jta.jar"/>
+            <pathelement location="${sharelib.dir}/hibernate/v3/ognl-2.6.11.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts2/antlr.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts2/asm.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts2/struts2-convention-plugin.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts2/struts2-core.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts2/struts2-spring-plugin.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-logging/commons-logging-api.jar"/>
+            <pathelement location="${sharelib.dir}/microsoft/msutil.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-lang/commons-lang.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/log4j/log4j.jar"/>
+            <pathelement location="${sharelib.dir}/dom4j/dom4j.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-fileupload/commons-fileupload.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-discovery/commons-discovery.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-io/commons-io.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-net/commons-net.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/commons-validator/commons-validator.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts/struts-el.jar"/>
+            <pathelement location="${sharelib.dir}/jakarta/struts/struts.jar"/>
+            <pathelement location="${sharelib.dir}/json/json-lib.jar"/>
+            <pathelement location="${sharelib.dir}/json/json-taglib.jar"/>
+            <pathelement location="${sharelib.dir}/json/json.jar"/>
+            <pathelement location="${sharelib.dir}/json/jsonplugin.jar"/>
+            <pathelement location="${sharelib.dir}/json/ezmorph.jar"/>
+            <pathelement location="${sharelib.dir}/quartz/quartz.jar"/>
+        </path>
+        <!--uset classpath for this project -->
+
+    </target>
+
+    <target name="wars" depends="javacode">
+        <delete file="${project.war}"/>
+        <copy preservelastmodified="yes" todir="${src.dir}/appserver/META-INF/" overwrite="true">
+            <fileset dir="${src.dir}/version/">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+        <war warfile="${project.war}" webxml="${src.dir}/appserver/WEB-INF/web.xml"
+             manifest="${src.dir}/appserver/META-INF/MANIFEST.MF">
+            <lib file="${project.jar}"/>
+            <lib file="${shared.dir}/common/lib/xyzbvc.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xmlsec-1.3.0.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/XmlSchema-1.1.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xml-apis-1.0.b2.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xfire-jsr181-api-1.0-M1.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xfire-all-1.2.6.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xercesImpl-2.6.2.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xbean-spring-2.8.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xbean-2.2.0.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/xalan-2.7.0.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/wstx-asl-3.2.0.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/wss4j-1.5.1.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/wsdl4j-1.6.1.jar"/>
+            <lib file="${sharelib.dir}/whirlycache/whirlycache-1.0.1.jar"/>
+            <lib file="${shared.dir}/webservice/lib/webclient.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/transactions-jta-3.6.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/transactions-jdbc-3.6.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/transactions-api-3.6.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/transactions-3.6.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/transaction-api-1.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/syslog/syslog4j.jar"/>
+            <lib file="${sharelib.dir}/stax/stax-utils-20040917.jar"/>
+            <lib file="${sharelib.dir}/stax/stax-api-1.0.1.jar"/>
+            <lib file="${sharelib.dir}/stax/stax-1.2.0.jar"/>
+            <lib file="${sharelib.dir}/rsa/sslj.jar"/>
+            <lib file="${sharelib.dir}/spring/spring.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/spiderdb-1.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/snmp/snmp4j-2.0.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-migrator-1.5.6.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-log4j12-1.5.6.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/slf4j-1.5.6/slf4j-api-1.5.6.jar"/>
+            <lib file="${sharelib.dir}/apache/axis/saaj-impl-1.3.jar"/>
+            <lib file="${sharelib.dir}/apache/axis/saaj-api-1.3.jar"/>
+            <lib file="${sharelib.dir}/quartz/quartz.jar"/>
+            <lib file="${sharelib.dir}/proxool/proxool.jar"/>
+            <lib file="${sharelib.dir}/google/protolbuf.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/persistence4j-jdbc-1.5.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/persistence4j-jdbc-1.6.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/persistence4j-common-1.6.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/persistence4j-common-1.5.jar"/>
+            <lib file="${sharelib.dir}/opensaml/opensaml-1.0.1.jar"/>
+            <lib file="${sharelib.dir}/jdbc/oracle/ojdbc14.jar"/>
+            <lib file="${sharelib.dir}/apache/mina/mina-core.jar"/>
+            <lib file="${sharelib.dir}/sun/javamail/mail.jar"/>
+            <lib file="${sharelib.dir}/apache/axis2-1.5.4/lib/mail-1.4.jar"/>
+            <lib file="${sharelib.dir}/jakarta/log4j/log4j.jar"/>
+            <lib file="${sharelib.dir}/apache/mina/jzlib.jar"/>
+            <lib file="${sharelib.dir}/whirlycache/lib/junit-3.8.1.jar"/>
+            <lib file="${sharelib.dir}/jdbc/jtds/jtds-1.2.jar"/>
+            <lib file="${sharelib.dir}/jsr/jsr173_api-1.0.jar"/>
+            <lib file="${sharelib.dir}/json/json-lib.jar"/>
+            <lib file="${sharelib.dir}/jmock/jmock-1.0.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/jftp/jftp.jar"/>
+            <lib file="${sharelib.dir}/jetty/jetty-util-6.1.2rc0.jar"/>
+            <lib file="${sharelib.dir}/jetty/jetty-6.1.2rc0.jar"/>
+            <lib file="${sharelib.dir}/jdom/jdom.jar"/>
+            <lib file="${sharelib.dir}/jdbc/sybase/jconn3.jar"/>
+            <lib file="${sharelib.dir}/jaxws/jaxws-api-2.0.jar"/>
+            <lib file="${sharelib.dir}/jaxen/jaxen-1.1-beta-9.jar"/>
+            <lib file="${sharelib.dir}/apache/axis2-1.5.4/lib/jaxb-xjc-2.1.7.jar"/>
+            <lib file="${sharelib.dir}/apache/axis2-1.5.4/lib/jaxb-impl-2.1.7.jar"/>
+            <lib file="${sharelib.dir}/apache/axis2-1.5.4/lib/jaxb-api-2.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/jace/jace.jar"/>
+            <lib file="${sharelib.dir}/httpunit/httpunit-1.6.1.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/google-collections-1.0.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/geronimo-spec-activation-1.0.2-rc4.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/geronimo-jta_1.0.1B_spec-1.0.1.jar"/>
+            <lib file="${sharelib.dir}/json/ezmorph.jar"/>
+            <lib file="${sharelib.dir}/dom4j/dom4j.jar"/>
+            <lib file="${sharelib.dir}/jdbc/ibm/db2jcc.jar"/>
+            <lib file="${sharelib.dir}/jdbc/ibm/db2java.jar"/>
+            <lib file="${sharelib.dir}/whirlycache/concurrent-1.3.4.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-pool/commons-pool.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-logging/commons-logging.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-logging/commons-logging-api.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-lang/commons-lang.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-io/commons-io.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-httpclient/commons-httpclient.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-discovery/commons-discovery.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-digester/commons-digester.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-dbcp/commons-dbcp.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-collections/commons-collections.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-codec/commons-codec.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-beanutils/commons-beanutils.jar"/>
+            <lib file="${sharelib.dir}/jakarta/commons-attributes-api/commons-attributes-api-2.1.jar"/>
+            <lib file="${shared.dir}/common/lib/common.jar"/>
+            <lib file="${sharelib.dir}/bouncycastle/bcprov-jdk15-133.jar"/>
+            <lib file="${sharelib.dir}/jakarta/bcel/bcel.jar"/>
+            <lib file="${shared.dir}/auditclient/lib/auditclient.jar"/>
+            <lib file="${sharelib.dir}/sourceforge/persistence4j/atomikos-util-3.6.5.jar"/>
+            <lib file="${sharelib.dir}/apache/axis2-1.5.4/lib/activation-1.1.jar"/>
+
+            <!--<lib file="${sharelib.dir}/jdbc/ibm/db2jcc_license_cu.jar"/>
+            <lib file="${sharelib.dir}/xfire/lib/*.jar"/>-->
+            <fileset dir="${src.appserver.dir}/">
+                <include name="**/*.*"/>
+            </fileset>
+
+        </war>
+    </target>
+    <target name="myjar" depends="javacode">
+        <copy preservelastmodified="yes" todir="${target.classes.dir}" overwrite="true">
+            <fileset dir="${src.resources.dir}/">
+                <include name="**/*.xml"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.sql"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${project.jar}" basedir="${target.classes.dir}">
+            <include name="**/*.class"/>
+            <include name="**/*.xml"/>
+            <include name="**/*.properties"/>
+            <include name="**/*.sql"/>
+        </jar>
+
+    </target>
+
+
+    <target name="mypublib" depends="jars,wars">
+        <mkdir dir="${publib.dir}"/>
+        <mkdir dir="${publib.dir}/lib"/>
+        <copy preservelastmodified="yes" file="${project.jar}" todir="${publib.dir}/lib"/>
+        <copy preservelastmodified="yes" file="${project.war}" todir="${publib.dir}/lib"/>
+        <!-- Selectively copy bin files -->
+        <copy preservelastmodified="yes" todir="${publib.dir}">
+            <fileset dir="${basedir}">
+                <include name="etc/*.*"/>
+            </fileset>
+        </copy>
+
+        <!-- unzip src="${sharelib.dir}/jre/jre.zip" dest="${publib.dir}/java"/ -->
+    </target>
+    <target name="mydeploy"/>
+    <target name="myundeploy"/>
+</project>

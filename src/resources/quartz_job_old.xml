@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data
+        xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_1_8.xsd"
+        version="1.8">
+    <pre-processing-commands>
+        <delete-jobs-in-group>*</delete-jobs-in-group>
+        <!-- clear all jobs in scheduler -->
+        <delete-triggers-in-group>*</delete-triggers-in-group>
+        <!-- clear all triggers in scheduler -->
+    </pre-processing-commands>
+
+    <processing-directives>
+        <!-- if there are any jobs/trigger in scheduler of same name (as in this file), overwrite them -->
+        <overwrite-existing-data>true</overwrite-existing-data>
+        <!-- if there are any jobs/trigger in scheduler of same name (as in this file), and over-write is false, ignore them rather then generating an error -->
+        <ignore-duplicates>false</ignore-duplicates>
+    </processing-directives>
+    <schedule>
+        <!--<job>
+            <name>Job_uplink_month</name>
+            <group>DEFAULT</group>
+            <job-class>com.inetec.ichange.service.monitor.uplink.job.FtpMonthJobImp</job-class>
+        </job>
+        <trigger>
+            &lt;!&ndash;<cron>&ndash;&gt;
+            &lt;!&ndash;<name>cronTest</name>&ndash;&gt;
+            &lt;!&ndash;<group>ddd</group>&ndash;&gt;
+            &lt;!&ndash;<job-name>test</job-name>&ndash;&gt;
+            &lt;!&ndash;<job-group>aaa</job-group>&ndash;&gt;
+            &lt;!&ndash;<cron-expression>0/5 * * * * ?</cron-expression>&ndash;&gt;
+            &lt;!&ndash;</cron>&ndash;&gt;
+            <simple>
+                <name>Trigger_uplink_month</name>
+                <group>DEFAULT</group>
+                <job-name>Job_uplink_month</job-name>
+                <job-group>DEFAULT</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>10000</repeat-interval>
+            </simple>
+        </trigger>
+        <job>
+            <name>Job_uplink_day</name>
+            <group>DEFAULT</group>
+            <job-class>com.inetec.ichange.service.monitor.uplink.job.FtpDayJobImp</job-class>
+        </job>
+        <trigger>
+            <cron>
+                <name>Trigger_uplink_day</name>
+                <group>DEFAULT</group>
+                <job-name>Job_uplink_day</job-name>
+                <job-group>DEFAULT</job-group>
+                <cron-expression>0 20 01 ? * *</cron-expression>
+            </cron>
+
+        </trigger>
+       &lt;!&ndash; <job>
+            <name>WebServiceJob_uplink_month</name>
+            <group>DEFAULT</group>
+            <job-class>com.inetec.ichange.service.monitor.uplink.job.WebSeviceMonthJobImp</job-class>
+        </job>
+        <trigger>
+            &lt;!&ndash;  <cron>
+                <name>WebServiceJob_uplink_month</name>
+                <group>DEFAULT</group>
+                <job-name>WebServiceJob_uplink_month</job-name>
+                <job-group>DEFAULT</job-group>
+                <cron-expression>0 20 01 ? * *</cron-expression>
+            </cron>&ndash;&gt;
+
+            <simple>
+                <name>WebServiceJob_uplink_month</name>
+                <group>DEFAULT</group>
+                <job-name>WebServiceJob_uplink_month</job-name>
+                <job-group>DEFAULT</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>1000</repeat-interval>
+            </simple>
+
+        </trigger> &ndash;&gt;
+        <job>
+            <name>WebServiceJob_uplink_day</name>
+            <group>DEFAULT</group>
+            <job-class>com.inetec.ichange.service.monitor.uplink.job.WebServiceDayJobImp</job-class>
+        </job>
+        <trigger>
+             <cron>
+                <name>Trigger_WebServiceJob_uplink_day</name>
+                <group>DEFAULT</group>
+                <job-name>WebServiceJob_uplink_day</job-name>
+                <job-group>DEFAULT</job-group>
+                <cron-expression>0 20 01 ? * *</cron-expression>
+            </cron>
+        </trigger>-->
+        <job>
+            <name>WebServiceJob_uplink_day</name>
+            <group>DEFAULT</group>
+            <job-class>com.inetec.ichange.service.monitor.uplink.job.WebServiceDayJobImp</job-class>
+        </job>
+        <trigger>
+          <!--  <cron>
+                <name>Trigger_WebServiceJob_uplink_day</name>
+                <group>DEFAULT</group>
+                <job-name>WebServiceJob_uplink_day</job-name>
+                <job-group>DEFAULT</job-group>
+                <cron-expression>0 20 01 ? * *</cron-expression>
+            </cron>-->
+
+            <simple>
+                <name>Trigger_WebServiceJob_uplink_day</name>
+                <group>DEFAULT</group>
+                <job-name>WebServiceJob_uplink_day</job-name>
+                <job-group>DEFAULT</job-group>
+                <repeat-count>0</repeat-count>
+                <repeat-interval>1000</repeat-interval>
+            </simple>
+
+        </trigger>
+    </schedule>
+</job-scheduling-data>

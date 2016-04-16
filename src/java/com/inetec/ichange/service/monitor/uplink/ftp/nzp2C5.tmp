@@ -1,0 +1,194 @@
+package com.inetec.ichange.service.monitor.uplink.ftp;
+
+import net.sf.jftp.net.BasicConnection;
+import net.sf.jftp.net.ConnectionHandler;
+import net.sf.jftp.net.ConnectionListener;
+import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.system.logging.Logger;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: bluesky
+ * Date: 11-4-28
+ * Time: 下午1:46
+ * To change this template use File | Settings | File Templates.
+ */
+public class UpFtpClient implements Logger, ConnectionListener {
+    public static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UpFtpClient.class);
+    private boolean isThere = false;
+    private String type = "upload ";
+    private String filaname = "";
+
+    private ConnectionHandler handler = new ConnectionHandler();
+    private String host;
+    private int port;
+    private String user;
+    private String password;
+
+    public void init(String host, int port, String userid, String password) {
+        this.host = host;
+        this.port = port;
+        this.user = userid;
+        this.password = password;
+        logger.info("ftp connect:" + host + ":" + port + " userid: " + user + " pwd:" + password);
+    }
+
+    public void upfile(String dir, String file) {
+        Log.setLogger(this);
+
+        FtpConnection con = new FtpConnection(host, port, dir);
+
+        con.addConnectionListener(this);
+        logger.info("ftp connect:" + host + ":" + port + " userid: " + user + " pwd:" + password);
+
+        con.setConnectionHandler(handler);
+        boolean isCon = false;
+        while (!isCon) {
+            try{
+                con.login(user, password);
+                isCon = true;
+            } catch (Exception e) {
+                logger.error("Ftp login error,can not connect to server! It will try again !",e);
+                isCon = false;
+            }
+            try {
+                Thread.sleep(10);
+            } catch (Exception ex) {
+            }
+        }
+
+        if(!con.chdir(dir)){
+           con.mkdir(dir);
+        }
+
+        con.upload(file);
+        filaname = file;
+    }
+
+    public void downfile(String dir, String file) {
+        Log.setLogger(this);
+
+        FtpConnection con = new FtpConnection(host, port, dir);
+
+        con.addConnectionListener(this);
+
+        con.setConnectionHandler(handler);
+
+        con.login(user, password);
+
+        while (!isThere) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        con.chdir(dir);
+
+        con.download(file);
+    }
+
+    public int fileExsit(String dir, String file) {
+        Log.setLogger(this);
+
+        FtpConnection con = new FtpConnection(host, port, dir, file);
+
+        con.addConnectionListener(this);
+
+        con.setConnectionHandler(handler);
+
+        con.login(user, password);
+
+        while (!isThere) {
+            try {
+                Thread.sleep(10);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        con.chdir(dir);
+
+        return con.exists(file);
+
+    }
+
+    public static void main(String argv[]) {
+        if (argv.length == 3) {
+            new UpFtpClient().upfile(argv[2], argv[1]);
+        } else {
+
+            new UpFtpClient().upfile("incoming", "F:\\cms\\test.txt");
+        }
+    }
+
+
+    public void updateRemoteDirectory(BasicConnection con) {
+        debug("ftp remote dir is:" + con.getPWD());
+    }
+
+    public void connectionInitialized(BasicConnection con) {
+        isThere = true;
+        debug("connection initialized sucess.");
+    }
+
+    public void updateProgress(String file, String type, long bytes) {
+        debug(" ftp upload" + file + " progess type:" + type + "bytes:" + bytes);
+    }
+
+    public void connectionFailed(BasicConnection con, String why) {
+        warn("connection failed! " + why);
+    }
+
+    public void actionFinished(BasicConnection con) {
+        info(" ftp action: " + type + " object is:" + filaname + " finished.");
+    }
+
+    public void debug(String msg) {
+        logger.debug(msg);
+    }
+
+    public void debugRaw(String msg) {
+        logger.debug(msg);
+    }
+
+    public void debug(String msg, Throwable throwable) {
+        logger.debug(msg, throwable);
+    }
+
+    public void warn(String msg) {
+        logger.warn(msg);
+    }
+
+    public void warn(String msg, Throwable throwable) {
+        logger.warn(msg, throwable);
+    }
+
+    public void error(String msg) {
+        logger.error(msg);
+    }
+
+    public void error(String msg, Throwable throwable) {
+        logger.error(msg, throwable);
+    }
+
+    public void info(String msg) {
+        logger.info(msg);
+    }
+
+    public void info(String msg, Throwable throwable) {
+        logger.info(msg, throwable);
+    }
+
+    public void fatal(String msg) {
+        logger.fatal(msg);
+    }
+
+    public void fatal(String msg, Throwable throwable) {
+        logger.fatal(msg, throwable);
+    }
+
+}
+

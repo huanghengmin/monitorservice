@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>监控服务接口测试</title>
+</head>
+<body>
+<form action="monitorService" method="post">
+    <select name="Command">
+        <option value="configdbsource">配置数据源</option>
+        <option value="configdevice">配置监控设备</option>
+        <option value="configdevicerange">配置设备地址范围</option>
+        <option value="devicesnmp">设备SNMP</option>
+        <option value="sysloglevel">SysLog级别</option>
+        <option value="alertlevel">报警级别</option>
+        <option value="configprobe">配置探针地址</option>
+        <option value="configplatform">报警级别</option>
+        <option value="devicemonitor">实时监控设备</option>
+        <option value="businessmonitor">实时监控业务</option>
+        <option value="havealert">查询报警</option>
+    </select>
+    <br/>
+    <a>
+        <label>设备ID:</label>
+        <input type="text" name="deviceid"/>
+    </a> <a>
+    <br/>
+    <label>设备IP:</label>
+    <input type="text" name="deviceip"/>
+</a>
+    <br/>
+    <a>
+        <label>ip:</label>
+        <input type="text" name="ip"/>
+    </a>
+    <br/>
+    <a>
+        <label>businessname:</label>
+        <input type="text" name="businessname"/>
+    </a>
+    <br/>
+    <input type="hidden" name="SERVICEREQUESTTYPE" value="SERVICECONTROLPOST"/>
+    </a>
+    <br/>
+    <input type="submit" value="提交"/>
+</form>
+</body>
+</html>

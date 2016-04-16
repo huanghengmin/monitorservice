@@ -1,0 +1,108 @@
+package com.inetec.ichange.service.monitor.uplink.ftp;
+
+import com.inetec.ichange.service.monitor.uplink.databean.TPlatinfDataBean;
+import com.inetec.ichange.service.monitor.uplink.databean.TPlatinfDao;
+import com.inetec.ichange.service.monitor.uplink.infobean.TPlatinfBean;
+import com.inetec.ichange.service.monitor.uplink.utils.UpFileUtils;
+import com.inetec.ichange.service.monitor.utils.Pagination;
+import org.apache.log4j.Logger;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: bluesky
+ * Date: 11-4-29
+ * Time: 上午9:22
+ * To change this template use File | Settings | File Templates.
+ */
+public class TPlatinfofProcess {
+    private static Logger logger = Logger.getLogger(TPlatinfofProcess.class);
+
+    /**
+     * 上传处理
+     */
+    public void process(FtpClient ftpclient) {
+
+        TPlatinfDao dao = new TPlatinfDao();
+        Pagination<TPlatinfDataBean> platinflist = dao.listPlatinf(1, 1);
+        if (platinflist.getTotalCount() != 1) {
+            logger.warn("集控系统-边界接入平台信息没有初始化！无法级联上报");
+            return;
+        }
+
+        TPlatinfDataBean tplatdatabean = platinflist.getItems().get(0);
+
+
+        TPlatinfBean tplatbean = new TPlatinfBean();
+        tplatbean.dataProcess(tplatdatabean);
+        /*String filename = tplatbean.processFile("A");
+
+
+        ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                UpFileUtils.Str_FtpDir, filename);
+
+        ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                UpFileUtils.Str_FtpDir, filename + ".finished");
+//        //附件文件上传
+        if (tplatbean.getApproveMaterial() != null && !tplatbean.getApproveMaterial().equalsIgnoreCase("")) {
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getApproveMaterial());
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getApproveMaterial() + ".finished");
+        }
+//
+        if (tplatbean.getSecurityProject() != null && !tplatbean.getSecurityProject().equalsIgnoreCase("")) {
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecurityProject());
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecurityProject() + ".finished");
+        }
+
+        if (tplatbean.getSecrecyProtocol() != null && !tplatbean.getSecrecyProtocol().equalsIgnoreCase("")) {
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecrecyProtocol());
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecrecyProtocol() + ".finished");
+        }
+        if (tplatbean.getPlatformMap() != null && !tplatbean.getPlatformMap().equalsIgnoreCase("")) {
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getPlatformMap());
+            ftpclient.upfile(tspz.getIp(), port, tspz.getUsername(), tspz.getPassword(),
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getPlatformMap() + ".finished");
+        }*/
+        tplatbean.dataProcess(tplatdatabean);
+        String filename2 = tplatbean.processFile("U");
+        ftpclient.upfile(
+                UpFileUtils.Str_FtpDir, filename2);
+        ftpclient.upfile(
+                UpFileUtils.Str_FtpDir, filename2 + ".finished");
+        //附件文件上传
+        if (tplatbean.getApproveMaterial() != null && !tplatbean.getApproveMaterial().equalsIgnoreCase("")) {
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getApproveMaterial());
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getApproveMaterial() + ".finished");
+        }
+
+        if (tplatbean.getSecurityProject() != null && !tplatbean.getSecurityProject().equalsIgnoreCase("")) {
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecurityProject());
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecurityProject() + ".finished");
+        }
+
+        if (tplatbean.getSecrecyProtocol() != null && !tplatbean.getSecrecyProtocol().equalsIgnoreCase("")) {
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecrecyProtocol());
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getSecrecyProtocol() + ".finished");
+        }
+        if (tplatbean.getPlatformMap() != null && !tplatbean.getPlatformMap().equalsIgnoreCase("")) {
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getPlatformMap());
+            ftpclient.upfile(
+                    UpFileUtils.Str_FtpDir, UpFileUtils.getDataPath() + tplatbean.getPlatformMap() + ".finished");
+        }
+
+        logger.info("级联上报--TPlatinfo 项上报成功! ");
+    }
+}

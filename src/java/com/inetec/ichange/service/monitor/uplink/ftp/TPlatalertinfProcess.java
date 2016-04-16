@@ -1,0 +1,22 @@
+package com.inetec.ichange.service.monitor.uplink.ftp;
+
+import org.apache.log4j.Logger;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: bluesky
+ * Date: 11-4-29
+ * Time: 上午10:51
+ * To change this template use File | Settings | File Templates.
+ */
+public class TPlatalertinfProcess {
+     private static Logger logger = Logger.getLogger(TPlatalertinfProcess.class);
+
+    /**
+     *
+     * @param ftpClient
+     */
+    public void process(FtpClient ftpClient) {
+
+    }
+}
